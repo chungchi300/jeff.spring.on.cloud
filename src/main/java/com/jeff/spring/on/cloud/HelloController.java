@@ -1,20 +1,22 @@
 package com.jeff.spring.on.cloud;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.google.gson.Gson;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class HelloController {
-    
+    private final Gson gson;
+
+    {
+        gson = new Gson();
+    }
     @RequestMapping("/")
     public String index() {
         return "Greetings from Spring Boot!Jeff Testing-double";
@@ -30,31 +32,58 @@ public class HelloController {
     String hello(@PathVariable String name) {
         return "Hello, " + name + "!";
     }
-    @RequestMapping("/craw")
-    public String craw(ModelMap modelMap) throws IOException {
+    @RequestMapping("/crawCCB")
+    public String crawCCB(ModelMap modelMap) throws IOException {
 
-        String result = "";
-        Document doc = Jsoup.connect("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningchi/index_content.html").get();
-        Elements merchants = doc.select("#master > div.inner > table:nth-child(n+3) > tbody > tr:nth-child(odd)");
+        BenefitCrawler benefitCrawlerCN = new CCBBenefitCrawler("zh_CN");
+        benefitCrawlerCN.addUrl("http://www.asia.ccb.com/hongkong_sc/personal/credit_cards/yearroundoffers/diningchi/index_content.html");
+        benefitCrawlerCN.addUrl("http://www.asia.ccb.com/hongkong_sc/personal/credit_cards/yearroundoffers/diningwes/index_content.html");
+        benefitCrawlerCN.addUrl("http://www.asia.ccb.com/hongkong_sc/personal/credit_cards/yearroundoffers/diningjap/index_content.html");
+        benefitCrawlerCN.addUrl("http://www.asia.ccb.com/hongkong_sc/personal/credit_cards/yearroundoffers/diningothers/index_content.html");
+        benefitCrawlerCN.craw();
 
-        for (Element merchant : merchants) {
-            String item = "";
-            item += "Language: " + "en" + "</br>";
-            item += "Bank: " + "CCB" + "</br>";
 
-            item += "Card:" +  merchant.select("td:nth-child(2) > table > tbody > tr > td > table").text() + "</br>";
-            item += "Merchant:" +  merchant.select("td:nth-child(2) > table > tbody > tr > td > h3").text() + "</br>";
-            item += "MerchantPhone:" +  merchant.select("td:nth-child(3) > table > tbody > tr > td > p.icoTel").text() + "</br>";
-            item += "Benefit:" + merchant.select("td:nth-child(2) > table > tbody > tr > td > ul > li").text() + "</br>";
-            item += "tAndCLink:" +"http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningchi/index_content.html"+  merchant.select("a").attr("href") + "</br>";
-            item += "Period:" +  merchant.select(".icoPromo").text() + "</br>";
-            item += "StoreLocation:" +  merchant.select(".icoLocation").text() + "</br>";
+        BenefitCrawler benefitCrawlerTW = new CCBBenefitCrawler("zh_TW");
+        benefitCrawlerTW.addUrl("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningchi/index_content.html");
+        benefitCrawlerTW.addUrl("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningwes/index_content.html");
+        benefitCrawlerTW.addUrl("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningjap/index_content.html");
+        benefitCrawlerTW.addUrl("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningothers/index_content.html");
+        benefitCrawlerTW.craw();
 
-            result += "<hr /> <br /><br />"+ item + "<br /><br />";
-        }
-
-        return result;
+        BenefitCrawler benefitCrawlerEN = new CCBBenefitCrawler("en");
+        benefitCrawlerEN.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningchi/index_content.html");
+        benefitCrawlerEN.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningwes/index_content.html");
+        benefitCrawlerEN.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningjap/index_content.html");
+        benefitCrawlerEN.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningothers/index_content.html");
+        benefitCrawlerEN.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(benefitCrawlerEN.getBenefits());
+        benefits.addAll(benefitCrawlerTW.getBenefits());
+        benefits.addAll(benefitCrawlerCN.getBenefits());
+        return gson.toJson(benefits);
     }
+    @RequestMapping("/crawSC")
+    public String crawSC(ModelMap modelMap) throws IOException {
 
+
+        BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerTW.craw();
+
+        BenefitCrawler benefitCrawlerEN = new StandCatardCrawler("en");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerEN.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(benefitCrawlerEN.getBenefits());
+        benefits.addAll(benefitCrawlerTW.getBenefits());
+
+        return gson.toJson(benefits);
+    }
 
 }
