@@ -25,6 +25,11 @@ public class HelloController {
 
         return "yolo";
     }
+
+    @RequestMapping("/hello/{name}")
+    String hello(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
     @RequestMapping("/craw")
     public String craw(ModelMap modelMap) throws IOException {
 
@@ -51,8 +56,5 @@ public class HelloController {
         return result;
     }
 
-    @RequestMapping("/hello/{name}")
-    public @ResponseBody String hello(@PathVariable("name") String name){
-        return "Hello" + name;
-    }
+
 }
