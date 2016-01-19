@@ -1,11 +1,14 @@
-package com.jeff.spring.on.cloud;
+package com.jeff.spring.on.cloud.controller;
 
 import com.google.gson.Gson;
+import com.jeff.spring.on.cloud.model.*;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,5 +88,13 @@ public class HelloController {
 
         return gson.toJson(benefits);
     }
-
+    @RequestMapping("/testPOI")
+    public void testPOI(   HttpServletResponse res) throws IOException {
+        Benefit benefit = new Benefit();
+        benefit.setBank("TESTING");
+        ByteArrayOutputStream baos = CSVFormatter.getInstance().convertBenefit(benefit);
+        res.setHeader("Content-Disposition", "attachment; filename=\"export.csv\"");
+        res.setContentType("application/csv"); // application/octet-stream
+        baos.writeTo(res.getOutputStream());
+    }
 }

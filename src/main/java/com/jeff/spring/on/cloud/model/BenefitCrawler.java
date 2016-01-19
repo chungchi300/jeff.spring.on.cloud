@@ -1,4 +1,4 @@
-package com.jeff.spring.on.cloud;
+package com.jeff.spring.on.cloud.model;
 
 import java.io.IOException;
 import java.util.ArrayList;

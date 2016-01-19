@@ -1,4 +1,4 @@
-package com.jeff.spring.on.cloud;
+package com.jeff.spring.on.cloud.model;
 
 
 import org.jsoup.Jsoup;

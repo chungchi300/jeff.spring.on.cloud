@@ -1,4 +1,4 @@
-package com.jeff.spring.on.cloud;
+package com.jeff.spring.on.cloud.model;
 
 import java.util.ArrayList;
 import java.util.List;
