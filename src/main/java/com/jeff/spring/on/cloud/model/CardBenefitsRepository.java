@@ -51,14 +51,22 @@ public class CardBenefitsRepository {
         return benefits;
     }
     public List<Benefit> crawCITY() throws IOException {
-        BenefitCrawler benefitCrawlerCN = new CityBankCrawler("zh_CN");
+
         BenefitCrawler benefitCrawlerTW = new CityBankCrawler("zh_TW");
-        BenefitCrawler benefitCrawlerEN = new CityBankCrawler("zh_en");
+        BenefitCrawler benefitCrawlerEN = new CityBankCrawler("en");
+        BenefitCrawler benefitCrawlerCN = new CityBankCrawler("zh_CN");
+
+        benefitCrawlerTW.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
+        benefitCrawlerEN.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
+        benefitCrawlerCN.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
+        benefitCrawlerTW.craw();
+        benefitCrawlerEN.craw();
         benefitCrawlerCN.craw();
         List<Benefit> benefits = new ArrayList<Benefit>();
         benefits.addAll(benefitCrawlerEN.getBenefits());
         benefits.addAll(benefitCrawlerTW.getBenefits());
         benefits.addAll(benefitCrawlerCN.getBenefits());
+
         return benefits;
     }
     public List<Benefit> crawSC() throws IOException {
