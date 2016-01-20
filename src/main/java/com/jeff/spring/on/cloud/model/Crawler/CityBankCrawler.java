@@ -38,11 +38,12 @@ public class CityBankCrawler extends BenefitCrawler {
             String inputLine;
             String json = "";
             StringBuilder stringBuilder = new StringBuilder();
+            //todo performance killer
             while ((inputLine = in.readLine()) != null)
                 stringBuilder.append(inputLine);
             json = stringBuilder.toString();
             in.close();
-            
+
             json = json.replace("var itemArray = ", "");
 
             Gson gson = new Gson();
