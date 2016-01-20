@@ -1,4 +1,6 @@
-package com.jeff.spring.on.cloud.model;
+package com.jeff.spring.on.cloud.model.Crawler;
+
+import com.jeff.spring.on.cloud.model.Benefit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public  abstract class BenefitCrawler {
 	 * 
 	 * @param url
 	 */
+
 	public void addUrl(String url) {
 		this.urls.add(url);
 	}

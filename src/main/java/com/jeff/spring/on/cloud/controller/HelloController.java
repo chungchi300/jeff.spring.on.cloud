@@ -41,7 +41,7 @@ public class HelloController {
     @RequestMapping("/testPOI")
     public void testPOI(   HttpServletResponse res) throws IOException {
 
-        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawCCB();
+        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawCITY();
 
         ByteArrayOutputStream baos = CSVFormatter.getInstance().convertBenefits(benefits);
         res.setHeader("Content-Disposition", "attachment; filename=\"export.csv\"");

@@ -1,6 +1,7 @@
 package com.jeff.spring.on.cloud.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Benefit {
@@ -14,24 +15,11 @@ public class Benefit {
 
 
 	private String tAndCLink;
-	private String period;
+	private Date from;
+    private Date to;
 	private List<String> storeLocations = new ArrayList<String>();
 	private List<String> benefitDescriptions = new ArrayList<String>();
 
-    @Override
-    public String toString() {
-        return "Benefit{" +
-                "language='" + language + '\'' +
-                ", bank='" + bank + '\'' +
-                ", cards=" + cards +
-                ", merchant='" + merchant + '\'' +
-                ", merchantPhone='" + merchantPhone + '\'' +
-                ", tAndCLink='" + tAndCLink + '\'' +
-                ", period='" + period + '\'' +
-                ", storeLocations=" + storeLocations +
-                ", benefitDescriptions=" + benefitDescriptions +
-                '}';
-    }
 
     public String getLanguage() {
         return language;
@@ -81,13 +69,7 @@ public class Benefit {
         this.tAndCLink = tAndCLink;
     }
 
-    public String getPeriod() {
-        return period;
-    }
 
-    public void setPeriod(String period) {
-        this.period = period;
-    }
 
     public List<String> getStoreLocations() {
         return storeLocations;
@@ -103,5 +85,21 @@ public class Benefit {
 
     public void addBenefitDescription(String benefitDescription) {
         this.benefitDescriptions.add(benefitDescription);
+    }
+
+    public Date getFrom() {
+        return from;
+    }
+
+    public Date getTo() {
+        return to;
+    }
+
+    public void setFrom(Date from) {
+        this.from = from;
+    }
+
+    public void setTo(Date to) {
+        this.to = to;
     }
 }

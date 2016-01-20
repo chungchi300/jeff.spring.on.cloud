@@ -1,6 +1,9 @@
 package com.jeff.spring.on.cloud.model;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.jeff.spring.on.cloud.model.Crawler.BenefitCrawler;
+import com.jeff.spring.on.cloud.model.Crawler.CCBBenefitCrawler;
+import com.jeff.spring.on.cloud.model.Crawler.CityBankCrawler;
+import com.jeff.spring.on.cloud.model.Crawler.StandCatardCrawler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,7 +50,17 @@ public class CardBenefitsRepository {
         benefits.addAll(benefitCrawlerCN.getBenefits());
         return benefits;
     }
-    @RequestMapping("/crawSC")
+    public List<Benefit> crawCITY() throws IOException {
+        BenefitCrawler benefitCrawlerCN = new CityBankCrawler("zh_CN");
+        BenefitCrawler benefitCrawlerTW = new CityBankCrawler("zh_TW");
+        BenefitCrawler benefitCrawlerEN = new CityBankCrawler("zh_en");
+        benefitCrawlerCN.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(benefitCrawlerEN.getBenefits());
+        benefits.addAll(benefitCrawlerTW.getBenefits());
+        benefits.addAll(benefitCrawlerCN.getBenefits());
+        return benefits;
+    }
     public List<Benefit> crawSC() throws IOException {
 
 

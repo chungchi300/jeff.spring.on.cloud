@@ -1,12 +1,15 @@
-package com.jeff.spring.on.cloud.model;
+package com.jeff.spring.on.cloud.model.Crawler;
 
 
+import com.jeff.spring.on.cloud.model.Benefit;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 /**
@@ -78,7 +81,14 @@ public class StandCatardCrawler extends BenefitCrawler {
 
 
                 benefit.settAndCLink(url);
-                benefit.setPeriod("2016");
+
+                try {
+                    benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2016-01-01 00:00:00"));
+                    benefit.setTo(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2016-12-31 23:59:59"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
 
                 benefit.addStoreLocation(merchant.select(".address").text());
                 this.benefits.add(benefit);

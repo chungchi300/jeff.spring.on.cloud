@@ -2,6 +2,7 @@ package com.jeff.spring.on.cloud.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class CSVFormatter {
        // csvWrite.setSheetMeta("bank_offer");
         String[] title = new String[]{"language", "bank", "card", "merchant", "merchantPhone", "benefit", "tAndCLink", "from", "to", "storeLocation"};
         csvWrite.writeRow(title);
-
+        SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd");
         for(Benefit benefit:benefits){
             csvWrite.writeRow(new String[]{benefit.getLanguage(),
                     benefit.getBank(),
@@ -46,7 +47,7 @@ public class CSVFormatter {
                     benefit.getMerchantPhone(),
                     stringsToString(benefit.getBenefitDescriptions()),
                     benefit.gettAndCLink(),
-                    "1-1-2016", "31-12-2016",
+                   sm.format(benefit.getFrom()), sm.format(benefit.getTo()),
                     stringsToString(benefit.getStoreLocations())});
 
         }
