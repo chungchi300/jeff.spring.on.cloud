@@ -58,6 +58,7 @@ public class Benefit {
     }
 
     public void setMerchantPhone(String merchantPhone) {
+        merchantPhone = merchantPhone.replace(" ","");
         this.merchantPhone = merchantPhone;
     }
 

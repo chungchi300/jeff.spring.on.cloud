@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -39,9 +40,9 @@ public class HelloController {
 
 
     @RequestMapping("/testPOI")
-    public void testPOI(   HttpServletResponse res) throws IOException {
+    public void testPOI(   HttpServletResponse res) throws IOException, ParseException {
 
-        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawCITY();
+        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawAmericanExpress();
 
         ByteArrayOutputStream baos = CSVFormatter.getInstance().convertBenefits(benefits);
         res.setHeader("Content-Disposition", "attachment; filename=\"export.csv\"");

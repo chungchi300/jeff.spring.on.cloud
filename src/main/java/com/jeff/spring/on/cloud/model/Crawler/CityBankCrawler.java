@@ -5,11 +5,7 @@ import com.jeff.spring.on.cloud.model.Benefit;
 import com.jeff.spring.on.cloud.model.Crawler.CityBank.Promotion;
 import com.jeff.spring.on.cloud.model.Crawler.CityBank.StoreInfo;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,20 +25,7 @@ public class CityBankCrawler extends BenefitCrawler {
         for (String link : this.urls) {
 
 
-            URL url = new URL(link);
-
-            URLConnection yc = url.openConnection();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                            yc.getInputStream()));
-            String inputLine;
-            String json = "";
-            StringBuilder stringBuilder = new StringBuilder();
-            //todo performance killer
-            while ((inputLine = in.readLine()) != null)
-                stringBuilder.append(inputLine);
-            json = stringBuilder.toString();
-            in.close();
+            String json = loadHtml(link);
 
             json = json.replace("var itemArray = ", "");
 
@@ -63,7 +46,7 @@ public class CityBankCrawler extends BenefitCrawler {
                         if(this.language.equals("en")){
                             benefit.settAndCLink("https://www.citibank.com.hk/english/credit-cards/promotions-year-round-privileges.htm?lid=HKENCBLCCLNTLYEARROUNDOFFERSCCLN");
                             benefit.setMerchant(promotion.merchantName.en);
-                            for(String benefitDescription:extractBenefit(promotion.offerDescriptionFull.en)){
+                            for(String benefitDescription: extractBenefitDescription(promotion.offerDescriptionFull.en)){
                                 benefit.addBenefitDescription(benefitDescription);
                             }
 
@@ -83,7 +66,7 @@ public class CityBankCrawler extends BenefitCrawler {
                         }else if(this.language.equals("zh_TW")){
                             benefit.settAndCLink("https://www.citibank.com.hk/chinese/credit-cards/promotions-year-round-privileges.htm?lid=HKENCBLCCLNTLYEARROUNDOFFERSCCLN");
                             benefit.setMerchant(promotion.merchantName.tc);
-                            for(String benefitDescription:extractBenefit(promotion.offerDescriptionFull.tc)){
+                            for(String benefitDescription: extractBenefitDescription(promotion.offerDescriptionFull.tc)){
                                 benefit.addBenefitDescription(benefitDescription);
                             }
 
@@ -103,7 +86,7 @@ public class CityBankCrawler extends BenefitCrawler {
                         }else{
                             benefit.settAndCLink("https://www.citibank.com.hk/chinese/credit-cards/promotions-year-round-privileges.htm?lid=HKENCBLCCLNTLYEARROUNDOFFERSCCLN");
                             benefit.setMerchant(promotion.merchantName.sc);
-                            for(String benefitDescription:extractBenefit(promotion.offerDescriptionFull.sc)){
+                            for(String benefitDescription: extractBenefitDescription(promotion.offerDescriptionFull.sc)){
                                 benefit.addBenefitDescription(benefitDescription);
                             }
 
@@ -128,7 +111,7 @@ public class CityBankCrawler extends BenefitCrawler {
             }
         }
     }
-    public static List<String> extractBenefit(String str){
+    public static List<String> extractBenefitDescription(String str){
         str = str.replace("\\n","");
         List<String> benefitDescriptions = Arrays.asList(str.split("<br />"));
 
