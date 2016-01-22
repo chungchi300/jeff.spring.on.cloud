@@ -39,11 +39,11 @@ public class HSBCCrawler extends BenefitCrawler {
                 try {
                     benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));
                     benefit.setTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-31"));
-
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                benefit.setMerchant(merchant.select(".title").html());
+                String title = merchant.select(".title").html();
+                benefit.setMerchant(title);
             }
 
         }
