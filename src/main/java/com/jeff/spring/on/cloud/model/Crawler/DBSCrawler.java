@@ -101,7 +101,7 @@ public class DBSCrawler extends BenefitCrawler {
                     Benefit benefit = new Benefit();
                     benefit.setLanguage(this.language);
                     benefit.setBank("dbs");
-                    String phone = merchant.select(".latestoffers-info a").attr("href").replace("tel:","").substring(4).replace("-","");
+                    String phone = merchant.select(".latestoffers-info a").attr("href").replace("tel:","").substring(4).replace("-","").replace(" ","");
                     if(phone.length() > 8){
                         phone = phone.substring(0,8);
                     }
@@ -150,9 +150,15 @@ public class DBSCrawler extends BenefitCrawler {
     }
 
     private void extractBenefitDetail(Benefit benefit, String tncLink) throws IOException {
+
         String benefitDetailHtml = loadHtml(tncLink);
         Document doc = Jsoup.parse(benefitDetailHtml);
         String benefitDescription = doc.select(".introtextproddetaildescription").html();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         benefit.addBenefitDescription(benefitDescription);
         try {
             benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));

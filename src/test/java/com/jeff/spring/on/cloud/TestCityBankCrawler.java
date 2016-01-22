@@ -1,6 +1,6 @@
 package com.jeff.spring.on.cloud;
 
-import com.jeff.spring.on.cloud.model.Crawler.DBSCrawler;
+import com.jeff.spring.on.cloud.model.Crawler.HSBCCrawler;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -23,7 +23,8 @@ public class TestCityBankCrawler extends TestCase {
 //        this.assertTrue(true);
 //    }
     public void testPoi() throws IOException, ParseException {
-        DBSCrawler dbsCrawler = new DBSCrawler("en");
+        HSBCCrawler dbsCrawler = new HSBCCrawler("zh_Tw");
+        dbsCrawler.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Hotel%20Dining&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
         dbsCrawler.craw();
 //        DBSCrawler.crawCardTypes();
     }
