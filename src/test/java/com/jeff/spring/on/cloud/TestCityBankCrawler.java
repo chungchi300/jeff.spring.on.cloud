@@ -1,6 +1,6 @@
 package com.jeff.spring.on.cloud;
 
-import com.jeff.spring.on.cloud.model.Crawler.AmericanExpressCrawler;
+import com.jeff.spring.on.cloud.model.Crawler.DBSCrawler;
 import junit.framework.TestCase;
 
 import java.io.IOException;
@@ -23,6 +23,8 @@ public class TestCityBankCrawler extends TestCase {
 //        this.assertTrue(true);
 //    }
     public void testPoi() throws IOException, ParseException {
-        AmericanExpressCrawler.extractBenefitDescription("\"<p>半自助午餐85折優惠(適用於星期一至星期五)<br>自助晚餐85折優惠(適用於星期一至星期日)<br>假日自助早午餐85折優惠(適用於星期六至星期日及公眾假期)</p>\"\n");
+        DBSCrawler dbsCrawler = new DBSCrawler("en");
+        dbsCrawler.craw();
+//        DBSCrawler.crawCardTypes();
     }
 }

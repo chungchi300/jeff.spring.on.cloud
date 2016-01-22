@@ -84,7 +84,20 @@ public class CardBenefitsRepository {
         benefits.addAll(benefitCrawlerEN.getBenefits());
         return benefits;
     }
-    public List<Benefit> crawSC() throws IOException, ParseException {
+    public List<Benefit> crawDBS() throws IOException, ParseException {
+        BenefitCrawler benefitCrawlerEN = new DBSCrawler("en");
+
+        benefitCrawlerEN.craw();
+
+        BenefitCrawler benefitCrawlerTW = new DBSCrawler("zh_TW");
+
+        benefitCrawlerTW.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(benefitCrawlerEN.getBenefits());
+        benefits.addAll(benefitCrawlerTW.getBenefits());
+        return benefits;
+    }
+        public List<Benefit> crawSC() throws IOException, ParseException {
 
 
         BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");

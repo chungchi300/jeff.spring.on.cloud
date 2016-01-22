@@ -42,7 +42,7 @@ public class HelloController {
     @RequestMapping("/testPOI")
     public void testPOI(   HttpServletResponse res) throws IOException, ParseException {
 
-        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawAmericanExpress();
+        List<Benefit> benefits = CardBenefitsRepository.getInstance().crawDBS();
 
         ByteArrayOutputStream baos = CSVFormatter.getInstance().convertBenefits(benefits);
         res.setHeader("Content-Disposition", "attachment; filename=\"export.csv\"");

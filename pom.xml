@@ -67,12 +67,16 @@
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
-
         <dependency>
-            <groupId>net.sourceforge.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>2.13</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.49.1</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>net.sourceforge.htmlunit</groupId>-->
+            <!--<artifactId>htmlunit</artifactId>-->
+            <!--<version>2.13</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>

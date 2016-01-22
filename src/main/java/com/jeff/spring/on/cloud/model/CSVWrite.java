@@ -14,7 +14,7 @@ public class CSVWrite{
     private OutputStreamWriter osw;
 
     public CSVWrite(ByteArrayOutputStream baos) {
-        // TODO Auto-generated constructor stub
+
         try{
             this.osw = new OutputStreamWriter(baos, "utf-8");
 
@@ -28,21 +28,19 @@ public class CSVWrite{
 
 
     public void writeRow(String[] rStrings) {
-        // TODO Auto-generated method stub
 
         csvWriter.writeNext(rStrings);
     }
 
 
     public void setSheetMeta(String metaData) {
-        // TODO Auto-generated method stub
 
         csvWriter.writeNext(new String[]{metaData});
     }
 
 
     public void flush() {
-        // TODO Auto-generated method stub
+
         try{
             csvWriter.flush();
             csvWriter.close();
