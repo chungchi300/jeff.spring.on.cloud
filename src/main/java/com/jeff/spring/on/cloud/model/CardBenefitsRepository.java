@@ -19,6 +19,53 @@ public class CardBenefitsRepository {
 
     private CardBenefitsRepository() {
     }
+    public List<Benefit> crawHSBC() throws IOException,ParseException{
+        BenefitCrawler crawlerTW = new HSBCCrawler("zh_TW");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Hotel%20Dining&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Chinese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Western%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Japanese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?subCat=Birthday%20Treats&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?subCat=Birthday%20Treats&page=2&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?subCat=Birthday%20Treats&page=3&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?subCat=Online%20Offers&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerTW.addUrl("https://www.redhotoffers.hsbc.com.hk/tc/yro/?spendingCat=dining&subCat=Others&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+
+        crawlerTW.craw();
+
+
+        BenefitCrawler crawlerEN = new HSBCCrawler("en");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?spendingCat=dining&subCat=Hotel%20Dining&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?spendingCat=dining&subCat=Chinese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?spendingCat=dining&subCat=Western%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?spendingCat=dining&subCat=Japanese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?subCat=Birthday%20Treats&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?subCat=Birthday%20Treats&page=2&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?subCat=Birthday%20Treats&page=3&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?subCat=Online%20Offers&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.addUrl("https://www.redhotoffers.hsbc.com.hk/en/yro/?spendingCat=dining&subCat=Others&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerEN.craw();
+
+        BenefitCrawler crawlerCN = new HSBCCrawler("zh_CN");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?spendingCat=dining&subCat=Hotel%20Dining&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?spendingCat=dining&subCat=Chinese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?spendingCat=dining&subCat=Western%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?spendingCat=dining&subCat=Japanese%20Cuisine&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?subCat=Birthday%20Treats&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?subCat=Birthday%20Treats&page=2&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?subCat=Birthday%20Treats&page=3&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?subCat=Online%20Offers&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.addUrl("https://www.redhotoffers.hsbc.com.hk/sc/yro/?spendingCat=dining&subCat=Others&page=1&fbc=AMH_RBWM_OFF_MINI_M_YRO_001");
+        crawlerCN.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(crawlerTW.getBenefits());
+        benefits.addAll(crawlerEN.getBenefits());
+        benefits.addAll(crawlerCN.getBenefits());
+        return benefits;
+    }
     public List<Benefit> crawCCB() throws IOException, ParseException {
 
         BenefitCrawler benefitCrawlerCN = new CCBBenefitCrawler("zh_CN");

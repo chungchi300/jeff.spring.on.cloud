@@ -6,7 +6,6 @@ import com.jeff.spring.on.cloud.model.Benefit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
@@ -70,6 +69,24 @@ public abstract class BenefitCrawler {
 
     public List<Benefit> getBenefits() {
         return this.benefits;
+    }
+
+    public String regexCaptureFirst(Pattern pattern, String target) {
+        String result = "";
+        try {
+            Pattern generatedPattern = pattern;
+            Matcher matcher = generatedPattern.matcher(target);
+            matcher.find();
+            result = matcher.group(1);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public String regexCaptureFirst(String strPattern, String target) {
+        return regexCaptureFirst(Pattern.compile(strPattern), target);
     }
 
     public abstract void craw() throws IOException, ParseException;
