@@ -71,7 +71,7 @@ public abstract class BenefitCrawler {
         return this.benefits;
     }
 
-    public String regexCaptureFirst(Pattern pattern, String target) {
+    public static String regexCaptureFirst(Pattern pattern, String target) {
         String result = "";
         try {
             Pattern generatedPattern = pattern;
@@ -85,7 +85,7 @@ public abstract class BenefitCrawler {
         return result;
     }
 
-    public String regexCaptureFirst(String strPattern, String target) {
+    public static String regexCaptureFirst(String strPattern, String target) {
         return regexCaptureFirst(Pattern.compile(strPattern), target);
     }
 

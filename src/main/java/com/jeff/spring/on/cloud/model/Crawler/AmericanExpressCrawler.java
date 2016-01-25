@@ -68,7 +68,7 @@ public class AmericanExpressCrawler extends BenefitCrawler {
             }
         }else if(this.language.equals("zh_TW")){
             benefit.addCard("美國運通卡");
-            benefit.setBank("美國運通");
+            benefit.setBank("American Express");
             String offerDetailJson = jsonPToJson(this.loadHtml("http://merchantgeo.force.com/selectsJSON?jsonType=offerDetails&campaignID=Cam-0000521&lang=zh-hk&jsoncallback=crawler&offerID=" + offer.Offer_id), "crawler");
             OfferDetailResult offerDetailResult = gson.fromJson(offerDetailJson, OfferDetailResult.class);
             OfferDetail offerDetail = offerDetailResult.Offer_Details;

@@ -38,7 +38,7 @@ public class CityBankCrawler extends BenefitCrawler {
 
                     Benefit benefit = new Benefit();
                     benefit.setLanguage(this.language);
-                    benefit.setBank("city");
+                    benefit.setBank("Citibank");
 
                     try {
                         benefit.setFrom(new SimpleDateFormat("MM/dd/yyyy").parse(promotion.validFrom));

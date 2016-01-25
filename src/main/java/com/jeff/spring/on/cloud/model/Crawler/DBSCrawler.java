@@ -100,7 +100,7 @@ public class DBSCrawler extends BenefitCrawler {
                 for(Element merchant:merchants){
                     Benefit benefit = new Benefit();
                     benefit.setLanguage(this.language);
-                    benefit.setBank("dbs");
+                    benefit.setBank("DBS");
                     String phone = merchant.select(".latestoffers-info a").attr("href").replace("tel:","").substring(4).replace("-","").replace(" ","");
                     if(phone.length() > 8){
                         phone = phone.substring(0,8);

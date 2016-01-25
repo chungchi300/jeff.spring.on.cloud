@@ -28,9 +28,9 @@ public class CCBBenefitCrawler extends BenefitCrawler {
             for (Element merchant : merchants) {
                 Benefit benefit = new Benefit();
                 benefit.setLanguage(this.language);
-                benefit.setBank("ccb");
+                benefit.setBank("China Construction Bank");
                 for(Element html:merchant.select("td:nth-child(2) > table > tbody > tr > td > table")){
-                    benefit.addCard(html.text());
+                    benefit.addCard(html.text().replace("This merchant accepts ",""));
 
                 }
 
@@ -42,7 +42,7 @@ public class CCBBenefitCrawler extends BenefitCrawler {
 
                 }
 
-                benefit.settAndCLink("http://www.asia.ccb.com/hongkong_tc/personal/credit_cards/yearroundoffers/diningchi/index_content.html" + merchant.select("a").attr("href"));
+                benefit.settAndCLink(url + merchant.select("a").attr("href"));
 
                 try {
                     benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));

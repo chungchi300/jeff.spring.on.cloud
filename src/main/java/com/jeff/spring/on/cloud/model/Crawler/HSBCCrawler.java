@@ -1,6 +1,7 @@
 package com.jeff.spring.on.cloud.model.Crawler;
 
 import com.jeff.spring.on.cloud.model.Benefit;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,7 +37,7 @@ public class HSBCCrawler extends BenefitCrawler {
                 String merchantHtml = merchant.html();
                 Benefit benefit = new Benefit();
                 benefit.setLanguage(this.language);
-                benefit.setBank("hsbc");
+                benefit.setBank("HSBC");
                 if(this.language.equals("en")){
                     benefit.addCard("HSBC Premier credit card");
                     benefit.addCard("HSBC Advance credit card");
@@ -66,16 +67,25 @@ public class HSBCCrawler extends BenefitCrawler {
                 String phoneAddressHtml  = merchant.select(" div.col-md-9 > ul > li:nth-child(1)").html();
                 String phone = "";
                 String address = "";
-                phone = regexCaptureFirst("([\\d ]*)",phoneAddressHtml).replace(" ","");
-                address = regexCaptureFirst(Pattern.compile("<br>(.*)<br>",Pattern.MULTILINE),phoneAddressHtml);
+
+                phone = regexCaptureFirst("([\\d ]*)",phoneAddressHtml).replace(" ", "");
+
+                address = regexCaptureFirst(Pattern.compile("<br>(.*)<br>",Pattern.MULTILINE),phoneAddressHtml).trim();
+
+                String benefitDescription = merchant.select("div.col-md-9 p").html();
+                benefitDescription = StringUtils.substringBefore(benefitDescription,"<br");
                 benefit.setMerchantPhone(phone);
-                benefit.addStoreLocation(address);
+                if(address.length()>0){
+                    benefit.addStoreLocation(address);
+
+                }
                 String tncLink   = "https://www.redhotoffers.hsbc.com.hk/"+merchant.select(" div.col-md-9 >ul >li> a").attr("href");
                 benefit.setMerchant(title);
                 benefit.settAndCLink(tncLink);
+                benefit.addBenefitDescription(benefitDescription);
                 benefits.add(benefit);
             }
-
+            this.benefits.addAll(benefits);
         }
     }
 }

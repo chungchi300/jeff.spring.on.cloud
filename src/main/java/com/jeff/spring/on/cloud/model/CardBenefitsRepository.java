@@ -66,6 +66,43 @@ public class CardBenefitsRepository {
         benefits.addAll(crawlerCN.getBenefits());
         return benefits;
     }
+    public List<Benefit> crawHangSeng() throws IOException,ParseException{
+        HangSengCrawler hangSengCrawlerTW = new HangSengCrawler("zh_TW");
+        for(int i = 0;i < 10;i++){
+//            hangSengCrawler.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/hotel_dining_0"+i+".html");
+            hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/chinese_food_0"+i+".html");
+            hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/asian_food_0"+i+".html");
+            hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/western_food_0"+i+".html");
+            hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/other_food_0"+i+".html");
+
+        }
+        HangSengCrawler hangSengCrawlerEN = new HangSengCrawler("en");
+        for(int i = 0;i < 10;i++){
+//            hangSengCrawler.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/hotel_dining_0"+i+".html");
+            hangSengCrawlerEN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/chinese_food_0"+i+".html");
+            hangSengCrawlerEN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/asian_food_0" + i + ".html");
+            hangSengCrawlerEN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/western_food_0"+i+".html");
+            hangSengCrawlerEN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/other_food_0"+i+".html");
+
+        }
+        HangSengCrawler hangSengCrawlerCN = new HangSengCrawler("zh_CN");
+        for(int i = 0;i < 10;i++){
+//            hangSengCrawler.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/hotel_dining_0"+i+".html");
+            hangSengCrawlerCN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/chinese_food_0"+i+".html");
+            hangSengCrawlerCN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/asian_food_0"+i+".html");
+            hangSengCrawlerCN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/western_food_0"+i+".html");
+            hangSengCrawlerCN.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/other_food_0"+i+".html");
+
+        }
+        hangSengCrawlerCN.craw();
+        hangSengCrawlerEN.craw();
+        hangSengCrawlerTW.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(hangSengCrawlerCN.getBenefits());
+        benefits.addAll(hangSengCrawlerTW.getBenefits());
+        benefits.addAll(hangSengCrawlerEN.getBenefits());
+        return benefits;
+    }
     public List<Benefit> crawCCB() throws IOException, ParseException {
 
         BenefitCrawler benefitCrawlerCN = new CCBBenefitCrawler("zh_CN");

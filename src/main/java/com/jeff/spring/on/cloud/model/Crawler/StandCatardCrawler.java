@@ -2,6 +2,7 @@ package com.jeff.spring.on.cloud.model.Crawler;
 
 
 import com.jeff.spring.on.cloud.model.Benefit;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -66,12 +67,16 @@ public class StandCatardCrawler extends BenefitCrawler {
             for (Element merchant : merchants) {
                 Benefit benefit = new Benefit();
                 benefit.setLanguage(this.language);
-                benefit.setBank("sc");
+                benefit.setBank("Standard Chatard");
 
                 addCardToBenefit(benefit, merchant);
 
                 benefit.setMerchant(merchant.select("td:nth-child(2) > div:nth-child(1)").text());
-                benefit.setMerchantPhone(merchant.select(".contact").text());
+                String phone = regexCaptureFirst(".?(\\d{8}).*", StringUtils.remove(merchant.select(".contact").text()," "));
+                if(phone.length() > 0){
+                    benefit.setMerchantPhone(phone);
+
+                }
 
                 for (Element html : merchant.select(".highlight")) {
                     if (!html.text().contains(".com") && !html.text().contains(".hk")) {
@@ -89,8 +94,11 @@ public class StandCatardCrawler extends BenefitCrawler {
                     e.printStackTrace();
                 }
 
+                String storeLocation  =merchant.select(".address").text();
+                if(storeLocation.length() > 0){
+                    benefit.addStoreLocation(storeLocation);
 
-                benefit.addStoreLocation(merchant.select(".address").text());
+                }
                 this.benefits.add(benefit);
             }
 
