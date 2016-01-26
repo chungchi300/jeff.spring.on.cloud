@@ -86,6 +86,8 @@ public class AmericanExpressCrawler extends BenefitCrawler {
         }else{
             throw  new RuntimeException();
         }
+        benefit.setId(offer.Offer_id.replace("OF","AM"));
+
         return benefit;
     }
 }

@@ -1,6 +1,7 @@
 package com.jeff.spring.on.cloud.model.Crawler;
 
 import com.jeff.spring.on.cloud.model.Benefit;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,7 +66,7 @@ public class DBSCrawler extends BenefitCrawler {
                 Document doc  = null;
                 if(this.language.equals("en")){
                     url = host + "/personal/credit-cards/offers-child-page.page";
-                    doc = Jsoup.connect(url)
+                     doc = Jsoup.connect(url)
                             .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
                             .data("b1", "igh5lrm9")
                             .data("SearchOffers","true")
@@ -107,7 +108,21 @@ public class DBSCrawler extends BenefitCrawler {
                     }
                     String merchantName = merchant.select(".h3-mimic").html();
                     String tncLink = host + merchant.select(".launch").attr("href");
+                    String offerHtmlDetail = "";
+                    String storeLocation = "";
+                    if(this.language.equals("en")){
 
+                        offerHtmlDetail =  Jsoup.parse(this.loadHtml(tncLink)).select(".product-summary").text();
+                        storeLocation = StringUtils.substringBefore(offerHtmlDetail, "Tel");
+                        storeLocation = StringUtils.substringAfter(storeLocation,"Address").trim();
+                    }else if(this.language.equals("zh_TW")){
+                        offerHtmlDetail =  Jsoup.parse(this.loadHtml(tncLink)).select(".product-summary").text();
+                        storeLocation = StringUtils.substringBefore(offerHtmlDetail, "Tel");
+                        storeLocation = StringUtils.substringAfter(storeLocation,"地址").trim();
+                    }else{
+                        throw  new RuntimeException();
+                    }
+                    benefit.addStoreLocation(storeLocation);
                     benefit.setMerchantPhone(phone);
                     benefit.setMerchant(merchantName);
                     benefit.settAndCLink(tncLink);

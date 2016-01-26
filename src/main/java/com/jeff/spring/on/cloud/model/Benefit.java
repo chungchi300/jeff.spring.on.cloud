@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Benefit {
 
-
+    private String id;
 	private String language;
 	private String bank;
 	private List<String> cards = new ArrayList<String>();
@@ -102,5 +102,13 @@ public class Benefit {
 
     public void setTo(Date to) {
         this.to = to;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
