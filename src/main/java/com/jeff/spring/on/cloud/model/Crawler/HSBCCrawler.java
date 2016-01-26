@@ -73,7 +73,12 @@ public class HSBCCrawler extends BenefitCrawler {
                 address = regexCaptureFirst(Pattern.compile("<br>(.*)<br>",Pattern.MULTILINE),phoneAddressHtml).trim();
 
                 String benefitDescription = merchant.select("div.col-md-9 p").html();
-                benefitDescription = StringUtils.substringBefore(benefitDescription,"<br");
+                if(url.contains("Birthday")){
+
+                }else{
+                    benefitDescription = StringUtils.substringBefore(benefitDescription,"<br");
+
+                }
                 benefit.setMerchantPhone(phone);
                 if(address.length()>0){
                     benefit.addStoreLocation(address);

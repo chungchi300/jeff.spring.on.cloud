@@ -34,7 +34,7 @@ public class TestCityBankCrawler extends TestCase {
         List<Benefit> benefits= new ArrayList<>();
 
 //        BenefitCrawler.regexCaptureFirst(".?(\\d{8}).*","(852)27392080\n");
-        writeFile(CardBenefitsRepository.getInstance().crawCITY(), "city.csv");
+        writeFile(CardBenefitsRepository.getInstance().crawHSBC(), "hsbc.csv");
 
 //        baos.writeTo(res.getOutputStream());
     }
