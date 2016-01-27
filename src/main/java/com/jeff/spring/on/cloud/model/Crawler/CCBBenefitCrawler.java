@@ -33,7 +33,8 @@ public class CCBBenefitCrawler extends BenefitCrawler {
                     benefit.addCard(html.text().replace("This merchant accepts ",""));
 
                 }
-
+                String imageUrl = merchant.select("th:nth-child(1) >img").attr("abs:src");
+                benefit.setImageUrl(imageUrl);
                 benefit.setMerchant(merchant.select("td:nth-child(2) > table > tbody > tr > td > h3").text());
                 benefit.setMerchantPhone(merchant.select("td:nth-child(3) > table > tbody > tr > td > p.icoTel").text());
                 for(Element html:merchant.select("td:nth-child(2) > table > tbody > tr > td > ul > li")){

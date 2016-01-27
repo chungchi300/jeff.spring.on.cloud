@@ -12,7 +12,7 @@ public class Benefit {
 	private List<String> cards = new ArrayList<String>();
 	private String merchant;
 	private String merchantPhone;
-
+    private String imageUrl;
 
 	private String tAndCLink;
 	private Date from;
@@ -110,5 +110,13 @@ public class Benefit {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

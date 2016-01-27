@@ -99,6 +99,8 @@ public class StandCatardCrawler extends BenefitCrawler {
                     benefit.addStoreLocation(storeLocation);
 
                 }
+                String imageUrl = "https://www.sc.com"+ merchant.select(".elitelogo img").attr("src");
+                benefit.setImageUrl(imageUrl);
                 this.benefits.add(benefit);
             }
 

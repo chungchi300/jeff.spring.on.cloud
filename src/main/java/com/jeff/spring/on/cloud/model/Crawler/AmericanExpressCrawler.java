@@ -49,6 +49,7 @@ public class AmericanExpressCrawler extends BenefitCrawler {
         benefit.setMerchant(offer.Name);
         benefit.setFrom(new SimpleDateFormat("yyyy-MM-ddHH:mm:ss").parse(offer.Start_Date));
         benefit.setTo(new SimpleDateFormat("yyyy-MM-ddHH:mm:ss").parse(offer.End_Date));
+        benefit.setImageUrl(offer.Logo_Image);
         if (this.language.equals("en")) {
             benefit.addCard("American Express Card");
             benefit.setBank("American Express");
@@ -66,6 +67,7 @@ public class AmericanExpressCrawler extends BenefitCrawler {
             for(Location location:offerDetail.Locations){
                 benefit.addStoreLocation(location.Address);
             }
+
         }else if(this.language.equals("zh_TW")){
             benefit.addCard("美國運通卡");
             benefit.setBank("American Express");

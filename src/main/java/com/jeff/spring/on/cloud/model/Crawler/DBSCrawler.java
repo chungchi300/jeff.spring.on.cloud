@@ -102,12 +102,14 @@ public class DBSCrawler extends BenefitCrawler {
                     Benefit benefit = new Benefit();
                     benefit.setLanguage(this.language);
                     benefit.setBank("DBS");
-                    String phone = merchant.select(".latestoffers-info a").attr("href").replace("tel:","").substring(4).replace("-","").replace(" ","");
+                    String phone = merchant.select(".latestoffers-info a").attr("href").replace("tel:","").substring(4).replace("-", "").replace(" ", "");
                     if(phone.length() > 8){
                         phone = phone.substring(0,8);
                     }
                     String merchantName = merchant.select(".h3-mimic").html();
                     String tncLink = host + merchant.select(".launch").attr("href");
+                    String imageUrl = host+merchant.select(".pull-left img").attr("src");
+                    benefit.setImageUrl(imageUrl);
                     String offerHtmlDetail = "";
                     String storeLocation = "";
                     if(this.language.equals("en")){

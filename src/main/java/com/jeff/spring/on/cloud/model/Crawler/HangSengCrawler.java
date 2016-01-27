@@ -34,16 +34,24 @@ public class HangSengCrawler extends BenefitCrawler {
                     Benefit benefit = new Benefit();
                     benefit.setLanguage(this.language);
                     benefit.setBank("Hang Seng Bank");
+                    String imageUrl = "";
+                    imageUrl =  merchant.select(".logo img").attr("abs:src");
+                    benefit.setImageUrl(imageUrl);
                     if (this.language.equals("en")) {
                         benefit.addCard("Hang Seng Credit Card");
                         benefit.addCard("Hang Seng Affinity Card");
+
                     } else if (this.language.equals("zh_TW")) {
                         benefit.addCard("恒生信用卡");
                         benefit.addCard("恒生聯營卡");
+
                     } else {
                         benefit.addCard("恒生信用卡");
                         benefit.addCard("恒生联营卡");
+
                     }
+
+
                     try {
                         benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));
                         benefit.setTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-31"));
@@ -60,7 +68,6 @@ public class HangSengCrawler extends BenefitCrawler {
                     String tncLink = url;
                     benefit.setMerchant(title);
                     benefit.settAndCLink(tncLink);
-
                     benefits.add(benefit);
                 }
                 this.benefits.addAll(benefits);

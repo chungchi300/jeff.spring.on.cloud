@@ -67,7 +67,8 @@ public class HSBCCrawler extends BenefitCrawler {
                 String phoneAddressHtml  = merchant.select(" div.col-md-9 > ul > li:nth-child(1)").html();
                 String phone = "";
                 String address = "";
-
+                String imageUrl = "https://www.redhotoffers.hsbc.com.hk"+merchant.select(".thumb img").attr("src");
+                benefit.setImageUrl(imageUrl);
                 phone = regexCaptureFirst("([\\d ]*)",phoneAddressHtml).replace(" ", "");
 
                 address = regexCaptureFirst(Pattern.compile("<br>(.*)<br>",Pattern.MULTILINE),phoneAddressHtml).trim();

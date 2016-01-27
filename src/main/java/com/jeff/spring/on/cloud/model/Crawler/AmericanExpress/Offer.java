@@ -10,5 +10,5 @@ public class Offer {
     public String Name;
     public String Headline;
     public String End_Date;
-
+    public String Logo_Image;
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.jeff.spring.on.cloud.model.Benefit;
 import com.jeff.spring.on.cloud.model.Crawler.CityBank.Promotion;
 import com.jeff.spring.on.cloud.model.Crawler.CityBank.StoreInfo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -40,6 +41,7 @@ public class CityBankCrawler extends BenefitCrawler {
                     benefit.setLanguage(this.language);
                     benefit.setBank("Citibank");
                     benefit.setId("CB-"+promotion.id);
+                    String imageHost = "https://www.citibank.com.hk";
                     try {
                         benefit.setFrom(new SimpleDateFormat("MM/dd/yyyy").parse(promotion.validFrom));
                         benefit.setTo(new SimpleDateFormat("MM/dd/yyyy").parse(promotion.validTill));
@@ -55,7 +57,7 @@ public class CityBankCrawler extends BenefitCrawler {
                             benefit.addCard("Citi® PremierMiles Card");
                             benefit.addCard("Citi® Rewards Card And Octopus");
                             benefit.addCard("Citi® Platinum Card");
-
+                            benefit.setImageUrl(imageHost+ StringUtils.substringAfter(promotion.img.en,"../.."));
                             if (promotion.outletInfo.en.size() > 0) {
                                 benefit.setMerchantPhone(promotion.outletInfo.en.get(0).outletTel);
                                 for (StoreInfo storeInfo : promotion.outletInfo.en) {
@@ -75,7 +77,7 @@ public class CityBankCrawler extends BenefitCrawler {
                             benefit.addCard("Citi® PremierMiles 信用卡");
                             benefit.addCard("Citi® Rewards 信用卡及八達通");
                             benefit.addCard("Citi® 白金卡");
-
+                            benefit.setImageUrl(imageHost + StringUtils.substringAfter(promotion.img.tc, "../.."));
                             if (promotion.outletInfo.tc.size() > 0) {
                                 benefit.setMerchantPhone(promotion.outletInfo.tc.get(0).outletTel);
                                 for (StoreInfo storeInfo : promotion.outletInfo.tc) {
@@ -95,7 +97,7 @@ public class CityBankCrawler extends BenefitCrawler {
                             benefit.addCard("Citi® PremierMiles 信用卡");
                             benefit.addCard("Citi® Rewards 信用卡及八达通");
                             benefit.addCard("Citi® 白金卡");
-
+                            benefit.setImageUrl(imageHost + StringUtils.substringAfter(promotion.img.sc, "../.."));
                             if (promotion.outletInfo.sc.size() > 0) {
                                 benefit.setMerchantPhone(promotion.outletInfo.sc.get(0).outletTel);
                                 for (StoreInfo storeInfo : promotion.outletInfo.sc) {

@@ -35,22 +35,25 @@ public class CSVFormatter {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(30000);
 
         CSVWrite csvWrite = new CSVWrite(byteArrayOutputStream);
-       // csvWrite.setSheetMeta("bank_offer");
-        String[] title = new String[]{"id","language", "bank", "card", "merchant", "merchantPhone", "benefit", "tAndCLink", "from", "to", "storeLocation"};
+        // csvWrite.setSheetMeta("bank_offer");
+        String[] title = new String[]{"id", "language", "bank", "card", "merchant", "merchantPhone", "benefit", "tAndCLink", "from", "to", "storeLocation", "imageUrl"};
         csvWrite.writeRow(title);
         SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd");
-        for(Benefit benefit:benefits){
+        for (Benefit benefit : benefits) {
             csvWrite.writeRow(new String[]{
-                    benefit.getId(),
-                    benefit.getLanguage(),
-                    benefit.getBank(),
-                    stringsToString(benefit.getCards()),
-                    benefit.getMerchant(),
-                    benefit.getMerchantPhone(),
-                    stringsToString(benefit.getBenefitDescriptions()),
-                    benefit.gettAndCLink(),
-                   sm.format(benefit.getFrom()), sm.format(benefit.getTo()),
-                    stringsToString(benefit.getStoreLocations())});
+                            benefit.getId(),
+                            benefit.getLanguage(),
+                            benefit.getBank(),
+                            stringsToString(benefit.getCards()),
+                            benefit.getMerchant(),
+                            benefit.getMerchantPhone(),
+                            stringsToString(benefit.getBenefitDescriptions()),
+                            benefit.gettAndCLink(),
+                            sm.format(benefit.getFrom()), sm.format(benefit.getTo()),
+                            stringsToString(benefit.getStoreLocations()),
+                            benefit.getImageUrl()
+                    }
+            );
 
         }
         csvWrite.flush();

@@ -4,6 +4,7 @@ import com.jeff.spring.on.cloud.model.Benefit;
 import com.jeff.spring.on.cloud.model.CSVFormatter;
 import com.jeff.spring.on.cloud.model.CardBenefitsRepository;
 import junit.framework.TestCase;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -23,12 +24,13 @@ public class TestCityBankCrawler extends TestCase {
 //        List<String> benefits =  CityBankCrawler.extractBenefitDescription("1. 15% off dinner food items*#<br />\\n2. 10% off dinner food items#<br />\\n3. Complimentary 5 course tasting menu*^#<br />\\n<br />\\n*Applicable to Citi Platinum or above Credit Cards only.<br />\\n^Upon ordering 3 or above 5-course tasting menu and only applicable to any guest having birthday in that month.<br />\\n#Upon spending HK$800 (10% service charge excluded).");
 //        this.assertTrue(true);
 //    }
-//    public void testExtractBenefit(){
-//
-//
-//        List<String> benefits =  CityBankCrawler.extractBenefitDescription("晚市食品85折*#");
-//        this.assertTrue(true);
-//    }
+    public void testExtractBenefit(){
+
+
+        String str = StringUtils.substringAfter("../../english/credit-cards/images/logo/img1386.jpg","../../");
+        this.assertTrue(true);
+    }
+
     public void testPoi() throws IOException, ParseException {
 
         List<Benefit> benefits= new ArrayList<>();
@@ -36,9 +38,9 @@ public class TestCityBankCrawler extends TestCase {
 //        BenefitCrawler.regexCaptureFirst(".?(\\d{8}).*","(852)27392080\n");
 //        writeFile(CardBenefitsRepository.getInstance().crawCITY(), "Citibank.csv");
 //        writeFile(CardBenefitsRepository.getInstance().crawAmericanExpress(), "American Express.csv");
-        writeFile(CardBenefitsRepository.getInstance().crawDBS(), "DBS.csv");
+//        writeFile(CardBenefitsRepository.getInstance().crawDBS(), "DBS.csv");
 //        writeFile(CardBenefitsRepository.getInstance().crawHSBC(),"HSBC.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawSC(),"Standard Chatard.csv");
+        writeFile(CardBenefitsRepository.getInstance().crawSC(),"Standard Chatard.csv");
 //        writeFile(CardBenefitsRepository.getInstance().crawHangSeng(),"Hang Seng Bank.csv");
 //        writeFile(CardBenefitsRepository.getInstance().crawCCB(),"China Construction Bank (Asia).csv");
 

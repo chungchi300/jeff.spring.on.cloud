@@ -13,6 +13,7 @@ public class Promotion {
     public OfferDescriptionFull offerDescriptionFull;
     public TNC tnc;
     public OutletInfo outletInfo;
+    public IMG img;
 //    public CardType cardType;
 
 }

@@ -152,13 +152,15 @@ public class CardBenefitsRepository {
 
         return benefits;
     }
+    public void assignBenefitId(List<Benefit> benefits, String appendance,int i) {
 
-    public void assignBenefitId(List<Benefit> benefits, String appendance) {
-        int i = 1;
         for (Benefit benefit : benefits) {
             benefit.setId(appendance + i);
             i++;
         }
+    }
+    public void assignBenefitId(List<Benefit> benefits, String appendance) {
+        assignBenefitId(benefits,appendance,1);
     }
 
     public List<Benefit> crawCITY() throws IOException, ParseException {
@@ -169,8 +171,9 @@ public class CardBenefitsRepository {
         benefitCrawlerTW.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
         benefitCrawlerEN.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
         benefitCrawlerCN.addUrl("https://www.citibank.com.hk/english/credit-cards/js/itemArray.js");
-        benefitCrawlerTW.craw();
         benefitCrawlerEN.craw();
+        benefitCrawlerTW.craw();
+
         benefitCrawlerCN.craw();
         List<Benefit> benefits = new ArrayList<Benefit>();
         benefits.addAll(benefitCrawlerEN.getBenefits());
@@ -213,11 +216,63 @@ public class CardBenefitsRepository {
         Collections.sort(benefitCrawlerTW.getBenefits(), BenefitPhoneComparator);
         assignBenefitId(benefitCrawlerEN.getBenefits(), "DBS-");
         assignBenefitId(benefitCrawlerTW.getBenefits(), "DBS-");
+        //you need to manually match the empty phone dbs language
+        return benefits;
+    }
+    public List<Benefit> crawSC() throws IOException, ParseException {
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        benefits.addAll(crawSCWithoutEmpty());
 
+        benefits.addAll(crawSCWithEmpty(59));
+        return benefits;
+    }
+    public List<Benefit> crawSCWithEmpty(int starterId) throws IOException, ParseException {
+
+
+        BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerTW.craw();
+
+        BenefitCrawler benefitCrawlerEN = new StandCatardCrawler("en");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerEN.craw();
+        List<Benefit> benefits = new ArrayList<Benefit>();
+        List<Benefit> enBenefits = benefitCrawlerEN.getBenefits();
+        List<Benefit> twBenefits = benefitCrawlerTW.getBenefits();
+        Iterator<Benefit> i = enBenefits.iterator();
+        while (i.hasNext()) {
+            Benefit s = i.next(); // must be called before you can call i.remove()
+            // Do something
+            if (s.getMerchantPhone() != null) {
+                i.remove();
+            }
+        }
+        Iterator<Benefit> t = twBenefits.iterator();
+        while (t.hasNext()) {
+            Benefit s = t.next(); // must be called before you can call i.remove()
+            // Do something
+            if (s.getMerchantPhone() != null) {
+                t.remove();
+            }
+        }
+        Collections.sort(enBenefits, BenefitPhoneComparator);
+        Collections.sort(twBenefits, BenefitPhoneComparator);
+        assignBenefitId(benefitCrawlerEN.getBenefits(), "SC-",starterId);
+        assignBenefitId(benefitCrawlerTW.getBenefits(), "SC-",starterId);
+
+        benefits.addAll(enBenefits);
+        benefits.addAll(twBenefits);
+        //you need to manually match the empty phone dbs language
         return benefits;
     }
 
-    public List<Benefit> crawSC() throws IOException, ParseException {
+    public List<Benefit> crawSCWithoutEmpty() throws IOException, ParseException {
 
 
         BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");
@@ -258,7 +313,7 @@ public class CardBenefitsRepository {
         assignBenefitId(benefitCrawlerTW.getBenefits(), "SC-");
         benefits.addAll(enBenefits);
         benefits.addAll(twBenefits);
-
+        //you need to manually match the empty phone dbs language
         return benefits;
     }
 
