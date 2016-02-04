@@ -59,9 +59,8 @@ public class StandCatardCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException {
-        for (String url : urls) {
-
-            Document doc = Jsoup.connect(url).get();
+        for (RawData rawData : this.getRawDatas()) {
+            Document doc =             Jsoup.parse(rawData.content);
             Elements merchants = doc.select("#table > tbody > tr");
 
             for (Element merchant : merchants) {
@@ -85,7 +84,7 @@ public class StandCatardCrawler extends BenefitCrawler {
                 }
 
 
-                benefit.settAndCLink(url);
+                benefit.settAndCLink(rawData.url);
 
                 try {
                     benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("2016-01-01 00:00:00"));
@@ -101,6 +100,7 @@ public class StandCatardCrawler extends BenefitCrawler {
                 }
                 String imageUrl = "https://www.sc.com"+ merchant.select(".elitelogo img").attr("src");
                 benefit.setImageUrl(imageUrl);
+                benefit.setCuisineType(rawData.cuisineType);
                 this.benefits.add(benefit);
             }
 

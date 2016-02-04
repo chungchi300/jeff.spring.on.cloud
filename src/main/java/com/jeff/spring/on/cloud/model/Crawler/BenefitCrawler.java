@@ -19,7 +19,7 @@ public abstract class BenefitCrawler {
     protected List<String> urls;
     protected String language;
     protected List<Benefit> benefits;
-
+    private List<RawData> rawDatas;
     public BenefitCrawler(String language) {
         this.urls = new ArrayList<String>();
         this.benefits = new ArrayList<Benefit>();
@@ -91,4 +91,12 @@ public abstract class BenefitCrawler {
 
     public abstract void craw() throws IOException, ParseException;
 
+
+    public List<RawData> getRawDatas() {
+        return rawDatas;
+    }
+
+    public void setRawDatas(List<RawData> rawDatas) {
+        this.rawDatas = rawDatas;
+    }
 }

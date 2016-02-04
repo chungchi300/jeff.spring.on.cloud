@@ -36,7 +36,7 @@ public class CSVFormatter {
 
         CSVWrite csvWrite = new CSVWrite(byteArrayOutputStream);
         // csvWrite.setSheetMeta("bank_offer");
-        String[] title = new String[]{"id", "language", "bank", "card", "merchant", "merchantPhone", "benefit", "tAndCLink", "from", "to", "storeLocation", "imageUrl"};
+        String[] title = new String[]{"id", "language", "bank", "card", "merchant", "merchantPhone", "benefit", "tAndCLink", "from", "to", "storeLocation", "imageUrl","cuisineType"};
         csvWrite.writeRow(title);
         SimpleDateFormat sm = new SimpleDateFormat("yyyy-MM-dd");
         for (Benefit benefit : benefits) {
@@ -51,7 +51,8 @@ public class CSVFormatter {
                             benefit.gettAndCLink(),
                             sm.format(benefit.getFrom()), sm.format(benefit.getTo()),
                             stringsToString(benefit.getStoreLocations()),
-                            benefit.getImageUrl()
+                            benefit.getImageUrl(),
+                            benefit.getCuisineType()
                     }
             );
 

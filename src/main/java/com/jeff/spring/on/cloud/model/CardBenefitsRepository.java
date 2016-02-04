@@ -76,7 +76,6 @@ public class CardBenefitsRepository {
     public List<Benefit> crawHangSeng() throws IOException, ParseException {
         HangSengCrawler hangSengCrawlerTW = new HangSengCrawler("zh_TW");
         for (int i = 0; i < 10; i++) {
-//            hangSengCrawler.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/hotel_dining_0"+i+".html");
             hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/chinese_food_0" + i + ".html");
             hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/asian_food_0" + i + ".html");
             hangSengCrawlerTW.addUrl("http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/western_food_0" + i + ".html");
@@ -221,26 +220,49 @@ public class CardBenefitsRepository {
     }
     public List<Benefit> crawSC() throws IOException, ParseException {
         List<Benefit> benefits = new ArrayList<Benefit>();
-        benefits.addAll(crawSCWithoutEmpty());
+       benefits.addAll(crawSCWithoutEmpty());
 
         benefits.addAll(crawSCWithEmpty(59));
         return benefits;
     }
+    GuessCuisineOperation scGuessCuisineOperation = new  GuessCuisineOperation() {
+        @Override
+        public String guessCuisineType(String url) {
+            if(url.contains("hotel")){
+                return "hotel";
+            }else if(url.contains("asian")){
+                return "asian";
+            }else if(url.contains("western")){
+                return "western";
+            }else{
+                return "others";
+            }
+        }
+    };
     public List<Benefit> crawSCWithEmpty(int starterId) throws IOException, ParseException {
 
 
         BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        UrlLoadData urlLoadData = new UrlLoadData();
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+
+        urlLoadData.load(scGuessCuisineOperation);
+        benefitCrawlerTW.setRawDatas(urlLoadData.results);
         benefitCrawlerTW.craw();
 
+
+        urlLoadData = new UrlLoadData();
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        urlLoadData.load(scGuessCuisineOperation);
+
         BenefitCrawler benefitCrawlerEN = new StandCatardCrawler("en");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerEN.setRawDatas(urlLoadData.results);
         benefitCrawlerEN.craw();
         List<Benefit> benefits = new ArrayList<Benefit>();
         List<Benefit> enBenefits = benefitCrawlerEN.getBenefits();
@@ -276,17 +298,26 @@ public class CardBenefitsRepository {
 
 
         BenefitCrawler benefitCrawlerTW = new StandCatardCrawler("zh_TW");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
-        benefitCrawlerTW.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        UrlLoadData urlLoadData = new UrlLoadData();
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/zh/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+
+        urlLoadData.load(scGuessCuisineOperation);
+        benefitCrawlerTW.setRawDatas(urlLoadData.results);
         benefitCrawlerTW.craw();
 
+
+        urlLoadData = new UrlLoadData();
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
+        urlLoadData.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        urlLoadData.load(scGuessCuisineOperation);
+
         BenefitCrawler benefitCrawlerEN = new StandCatardCrawler("en");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-hotel.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-asian.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-western.html");
-        benefitCrawlerEN.addUrl("https://www.sc.com/hk/promotion/credit-cards/year-round-offers-2016/dining-others.html");
+        benefitCrawlerEN.setRawDatas(urlLoadData.results);
         benefitCrawlerEN.craw();
         List<Benefit> benefits = new ArrayList<Benefit>();
         List<Benefit> enBenefits = benefitCrawlerEN.getBenefits();

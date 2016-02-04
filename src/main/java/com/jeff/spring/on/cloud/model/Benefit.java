@@ -19,7 +19,7 @@ public class Benefit {
     private Date to;
 	private List<String> storeLocations = new ArrayList<String>();
 	private List<String> benefitDescriptions = new ArrayList<String>();
-
+    private String cuisineType;
 
     public String getLanguage() {
         return language;
@@ -118,5 +118,13 @@ public class Benefit {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getCuisineType() {
+        return cuisineType;
+    }
+
+    public void setCuisineType(String cuisineType) {
+        this.cuisineType = cuisineType;
     }
 }
