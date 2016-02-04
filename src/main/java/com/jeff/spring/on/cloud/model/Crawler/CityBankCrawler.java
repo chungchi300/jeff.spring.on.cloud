@@ -23,10 +23,8 @@ public class CityBankCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException {
-        for (String link : this.urls) {
 
-
-            String json = loadHtml(link);
+            String json = this.getRawDatas().get(0).content;
 
             json = json.replace("var itemArray = ", "");
 
@@ -41,6 +39,17 @@ public class CityBankCrawler extends BenefitCrawler {
                     benefit.setLanguage(this.language);
                     benefit.setBank("Citibank");
                     benefit.setId("CB-"+promotion.id);
+                    if(promotion.category.contains("western")){
+                        benefit.setCuisineType("western");
+                    }else if(promotion.category.contains("chinese")){
+                        benefit.setCuisineType("chinese");
+                    }else if(promotion.category.contains("japanese")){
+                        benefit.setCuisineType("asian,japanese");
+                    }else if(promotion.category.contains("hotel_dining")){
+                        benefit.setCuisineType("hotel");
+                    }else {
+                        benefit.setCuisineType("others");
+                    }
                     String imageHost = "https://www.citibank.com.hk";
                     try {
                         benefit.setFrom(new SimpleDateFormat("MM/dd/yyyy").parse(promotion.validFrom));
@@ -111,7 +120,7 @@ public class CityBankCrawler extends BenefitCrawler {
                     this.benefits.add(benefit);
                 }
             }
-        }
+
     }
     public static List<String> extractBenefitDescription(String str){
         str = str.replace("\\n","");

@@ -23,10 +23,10 @@ public class HangSengCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException, ParseException {
-        for (String url : this.urls) {
+        for (RawData rawData : this.getRawDatas()) {
             Document doc = null;
             try{
-                doc = Jsoup.connect(url).get();
+                doc = Jsoup.parse(rawData.content);
                 Elements merchants = doc.select("#offer_content > li");
                 List<Benefit> benefits = new ArrayList<Benefit>();
                 for (Element merchant : merchants) {
@@ -65,10 +65,12 @@ public class HangSengCrawler extends BenefitCrawler {
                     extractBenefits(benefit, merchant);
                     benefit.setMerchantPhone(phone);
 
-                    String tncLink = url;
+                    String tncLink = rawData.url;
                     benefit.setMerchant(title);
                     benefit.settAndCLink(tncLink);
+                    benefit.setCuisineType(rawData.cuisineType);
                     benefits.add(benefit);
+
                 }
                 this.benefits.addAll(benefits);
             }catch (Exception ex){

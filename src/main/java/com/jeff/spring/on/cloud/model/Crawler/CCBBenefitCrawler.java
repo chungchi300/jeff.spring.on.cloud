@@ -20,9 +20,9 @@ public class CCBBenefitCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException {
-        for(String url:urls){
+        for(RawData rawData:this.getRawDatas()){
 
-            Document doc = Jsoup.connect(url).get();
+            Document doc = Jsoup.parse(rawData.content);
             Elements merchants = doc.select("#master > div.inner > table:nth-child(n+3) > tbody > tr:nth-child(odd)");
 
             for (Element merchant : merchants) {
@@ -43,8 +43,8 @@ public class CCBBenefitCrawler extends BenefitCrawler {
 
                 }
 
-                benefit.settAndCLink(url + merchant.select("a").attr("href"));
-
+                benefit.settAndCLink(rawData.url + merchant.select("a").attr("href"));
+                benefit.setCuisineType(rawData.cuisineType);
                 try {
                     benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));
                     benefit.setTo(new SimpleDateFormat("yyyy-MM-dd").parse("2016-12-31"));

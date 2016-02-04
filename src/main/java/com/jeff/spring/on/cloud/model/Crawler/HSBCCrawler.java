@@ -24,13 +24,9 @@ public class HSBCCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException, ParseException {
-        for (String url : urls) {
-            try {
-                Thread.sleep(10* 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Document doc = Jsoup.connect(url).get();
+        for (RawData rawData : this.getRawDatas()) {
+
+            Document doc = Jsoup.parse(rawData.content);
             Elements merchants = doc.select(".yroContent > .yro-promo-block");
             List<Benefit> benefits = new ArrayList<Benefit>();
             for (Element merchant : merchants) {
@@ -74,7 +70,7 @@ public class HSBCCrawler extends BenefitCrawler {
                 address = regexCaptureFirst(Pattern.compile("<br>(.*)<br>",Pattern.MULTILINE),phoneAddressHtml).trim();
 
                 String benefitDescription = merchant.select("div.col-md-9 p").html();
-                if(url.contains("Birthday")){
+                if(rawData.url.contains("Birthday")){
 
                 }else{
                     benefitDescription = StringUtils.substringBefore(benefitDescription,"<br");
@@ -89,6 +85,7 @@ public class HSBCCrawler extends BenefitCrawler {
                 benefit.setMerchant(title);
                 benefit.settAndCLink(tncLink);
                 benefit.addBenefitDescription(benefitDescription);
+                benefit.setCuisineType(rawData.cuisineType);
                 benefits.add(benefit);
             }
             this.benefits.addAll(benefits);

@@ -5,4 +5,5 @@ package com.jeff.spring.on.cloud.model.Crawler;
  */
 public interface GuessCuisineOperation {
     String guessCuisineType(String url);
+
 }

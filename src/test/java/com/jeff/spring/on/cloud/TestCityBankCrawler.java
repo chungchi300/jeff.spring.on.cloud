@@ -36,13 +36,13 @@ public class TestCityBankCrawler extends TestCase {
         List<Benefit> benefits= new ArrayList<>();
 
 //        BenefitCrawler.regexCaptureFirst(".?(\\d{8}).*","(852)27392080\n");
-//        writeFile(CardBenefitsRepository.getInstance().crawCITY(), "Citibank.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawAmericanExpress(), "American Express.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawDBS(), "DBS.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawHSBC(),"HSBC.csv");
-        writeFile(CardBenefitsRepository.getInstance().crawSC(),"Standard Chatard.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawHangSeng(),"Hang Seng Bank.csv");
-//        writeFile(CardBenefitsRepository.getInstance().crawCCB(),"China Construction Bank (Asia).csv");
+//     done   writeFile(CardBenefitsRepository.getInstance().crawCITY(), "Citibank.csv");
+//      gary  writeFile(CardBenefitsRepository.getInstance().crawAmericanExpress(), "American Express.csv");
+//     job done,but cannot check due to security reason   writeFile(CardBenefitsRepository.getInstance().crawDBS(), "DBS.csv");
+        writeFile(CardBenefitsRepository.getInstance().crawHSBC(),"HSBC.csv");
+//      done  writeFile(CardBenefitsRepository.getInstance().crawSC(),"Standard Chatard.csv");
+//      done  writeFile(CardBenefitsRepository.getInstance().crawHangSeng(),"Hang Seng Bank.csv");
+//     done   writeFile(CardBenefitsRepository.getInstance().crawCCB(),"China Construction Bank (Asia).csv");
 
 //        baos.writeTo(res.getOutputStream());
     }
