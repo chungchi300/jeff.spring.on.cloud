@@ -7,9 +7,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 /**
  * Created by aigens on 18/1/2016.
  */
@@ -23,6 +24,16 @@ public class CCBBenefitCrawler extends BenefitCrawler {
         for(RawData rawData:this.getRawDatas()){
 
             Document doc = Jsoup.parse(rawData.content);
+            try
+            {
+                URL url = new URL(rawData.url);
+                String baseUrl = url.getProtocol() + "://" + url.getHost();
+                doc.setBaseUri(baseUrl);
+            }catch (MalformedURLException e)
+            {
+                // do something
+            }
+
             Elements merchants = doc.select("#master > div.inner > table:nth-child(n+3) > tbody > tr:nth-child(odd)");
 
             for (Element merchant : merchants) {
@@ -33,7 +44,8 @@ public class CCBBenefitCrawler extends BenefitCrawler {
                     benefit.addCard(html.text().replace("This merchant accepts ",""));
 
                 }
-                String imageUrl = merchant.select("th:nth-child(1) >img").attr("abs:src");
+                Element imageElement  = merchant.select("th:nth-child(1) >img").first();
+                String imageUrl = imageElement.absUrl("src");
                 benefit.setImageUrl(imageUrl);
                 benefit.setMerchant(merchant.select("td:nth-child(2) > table > tbody > tr > td > h3").text());
                 benefit.setMerchantPhone(merchant.select("td:nth-child(3) > table > tbody > tr > td > p.icoTel").text());

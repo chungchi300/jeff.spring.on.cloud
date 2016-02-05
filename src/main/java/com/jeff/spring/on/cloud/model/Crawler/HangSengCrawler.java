@@ -25,8 +25,12 @@ public class HangSengCrawler extends BenefitCrawler {
     public void craw() throws IOException, ParseException {
         for (RawData rawData : this.getRawDatas()) {
             Document doc = null;
+
             try{
                 doc = Jsoup.parse(rawData.content);
+
+
+
                 Elements merchants = doc.select("#offer_content > li");
                 List<Benefit> benefits = new ArrayList<Benefit>();
                 for (Element merchant : merchants) {
@@ -35,22 +39,22 @@ public class HangSengCrawler extends BenefitCrawler {
                     benefit.setLanguage(this.language);
                     benefit.setBank("Hang Seng Bank");
                     String imageUrl = "";
-                    imageUrl =  merchant.select(".logo img").attr("abs:src");
-                    benefit.setImageUrl(imageUrl);
+
+
                     if (this.language.equals("en")) {
                         benefit.addCard("Hang Seng Credit Card");
                         benefit.addCard("Hang Seng Affinity Card");
-
+                        imageUrl =  "http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/eng/";
                     } else if (this.language.equals("zh_TW")) {
                         benefit.addCard("恒生信用卡");
                         benefit.addCard("恒生聯營卡");
-
+                        imageUrl =  "http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/chi/";
                     } else {
                         benefit.addCard("恒生信用卡");
                         benefit.addCard("恒生联营卡");
-
+                        imageUrl =  "http://www.hangseng.com/cms/emkt/pmo/common/com/yro_generic_card/schi/";
                     }
-
+                    benefit.setImageUrl(imageUrl + merchant.select(".logo img").attr("src"));
 
                     try {
                         benefit.setFrom(new SimpleDateFormat("yyyy-MM-dd").parse("2016-01-01"));

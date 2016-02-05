@@ -23,12 +23,13 @@ public class AmericanExpressCrawler extends BenefitCrawler {
 
     @Override
     public void craw() throws IOException, ParseException {
-        for(String link:this.urls){
-            String result = loadHtml(link);
-            String json = jsonPToJson(result,"crawler");
+        for(RawData rawData:this.getRawDatas()){
+
+            String json = jsonPToJson(rawData.content,"crawler");
             Result parsedResult = gson.fromJson(json, Result.class);
             for (Offer offer : parsedResult.Offer_Data.Offers_List) {
                 Benefit benefit = crawBenefit(offer);
+                benefit.setCuisineType(rawData.cuisineType);
                 benefits.add(benefit);
             }
 

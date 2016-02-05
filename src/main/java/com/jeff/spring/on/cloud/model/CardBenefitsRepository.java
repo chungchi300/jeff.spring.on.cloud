@@ -4,6 +4,7 @@ import com.jeff.spring.on.cloud.model.Crawler.*;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 
@@ -222,7 +223,7 @@ public class CardBenefitsRepository {
         benefitCrawlerTW.craw();
 
         BenefitCrawler benefitCrawlerEN = new CCBBenefitCrawler("en");
-        new UrlLoadData();
+        urlLoadData = new UrlLoadData();
         urlLoadData.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningchi/index_content.html");
         urlLoadData.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningwes/index_content.html");
         urlLoadData.addUrl("http://www.asia.ccb.com/hongkong/personal/credit_cards/yearroundoffers/diningjap/index_content.html");
@@ -283,22 +284,98 @@ public class CardBenefitsRepository {
 
         return benefits;
     }
-
+    GuessCuisineOperation abGuessCuisineOperation = new  GuessCuisineOperation() {
+        @Override
+        public String guessCuisineType(String url) {
+            if(url.contains("American")){
+                return "western,american";
+            }else if(url.contains("Asian")){
+                return "asian";
+            }else if(url.contains("British")){
+                return "western,british";
+            }else if(url.contains("Casual")){
+                return "others,casual";
+            }else if(url.contains("Coffee")){//problem
+                return "western,hotel,coffee,desserts";
+            }else if(url.contains("European")){
+                return "western,european";
+            }else if(url.contains("French")){
+                return "western,french";
+            }else if(url.contains("German")){
+                return "western,german";
+            }else if(url.contains("Greek")){
+                return "western,greek";
+            }else if(url.contains("Indian")){
+                return "asian,indian";
+            }else if(url.contains("Italian")){
+                return "western,italian";
+            }else if(url.contains("Japanese")){
+                return "asian,japanese";
+            }else if(url.contains("Seafood")){
+                return "hotel,seafood";
+            }else if(url.contains("Spanish")){
+                return "western,spanish";
+            }else if(url.contains("Steakhouse")){
+                return "western,steakhouse";
+            }else if(url.contains("Thai")){
+                return "asian,thai";
+            }else if(url.contains("Delis")){
+                return "western,cafes";
+            }else{
+                return "others";
+            }
+        }
+    };
     public List<Benefit> crawAmericanExpress() throws IOException, ParseException {
 
-
         BenefitCrawler benefitCrawlerTW = new AmericanExpressCrawler("zh_TW");
-        benefitCrawlerTW.addUrl("http://merchantgeo.force.com/selectsJSON?pageType=gvp&jsonType=gvpofferlist&campaignID=Cam-0000521&category=Dining&lang=zh-hk&sort=&offerSize=10000&pageNo=1&jsoncallback=crawler");
+        List<String> subCats = new ArrayList<>();
+        subCats.add("American");
+        subCats.add("Asian");
+        subCats.add("British");
+        subCats.add("Casual");
+        subCats.add(URLEncoder.encode("Coffee and Desserts","UTF-8"));
+        subCats.add("European");
+        subCats.add("French");
+        subCats.add("German");
+        subCats.add("Greek");
+        subCats.add("Indian");
+        subCats.add("Italian");
+        subCats.add("Japanese");
+        subCats.add("Seafood");
+        subCats.add("Spanish");
+        subCats.add("Steakhouse");
+        subCats.add("Thai");
+        subCats.add(URLEncoder.encode("Delis, Bistros and Cafés","UTF-8"));
+
+        String chineseBaseUrl = "http://merchantgeo.force.com/selectsJSON?pageType=gvp&jsonType=gvpofferlist&campaignID=Cam-0000521&category=Dining&lang=zh-hk&sort=&offerSize=10000&pageNo=1&jsoncallback=crawler&subCategory=";
+        UrlLoadData urlLoadData = new UrlLoadData();
+
+        for(String subCat:subCats){
+            urlLoadData.addUrl(chineseBaseUrl+subCat);
+        }
+        urlLoadData.load(abGuessCuisineOperation);
+        benefitCrawlerTW.setRawDatas(urlLoadData.rawDatas);
+        benefitCrawlerTW.addUrl(chineseBaseUrl);
         benefitCrawlerTW.craw();
 
-
+        String enBaseUrl = "http://merchantgeo.force.com/selectsJSON?pageType=gvp&jsonType=gvpofferlist&campaignID=Cam-0000521&category=Dining&sort=&offerSize=10000&pageNo=1&jsoncallback=crawler&subCategory=";
         BenefitCrawler benefitCrawlerEN = new AmericanExpressCrawler("en");
-        benefitCrawlerEN.addUrl("http://merchantgeo.force.com/selectsJSON?pageType=gvp&jsonType=gvpofferlist&campaignID=Cam-0000521&category=Dining&sort=&offerSize=10000&pageNo=1&jsoncallback=crawler");
+
+        urlLoadData = new UrlLoadData();
+
+        for(String subCat:subCats){
+            urlLoadData.addUrl(enBaseUrl+subCat);
+        }
+        urlLoadData.load(abGuessCuisineOperation);
+        benefitCrawlerEN.setRawDatas(urlLoadData.rawDatas);
+
         benefitCrawlerEN.craw();
 
         List<Benefit> benefits = new ArrayList<Benefit>();
         benefits.addAll(benefitCrawlerTW.getBenefits());
         benefits.addAll(benefitCrawlerEN.getBenefits());
+
         return benefits;
     }
     public  List<String> dbsCardTypes(String language) throws IOException {
@@ -324,6 +401,10 @@ public class CardBenefitsRepository {
         }else{
             throw  new RuntimeException();
         }
+        List<String> convertedCardType = new ArrayList<>();
+        for(String cardType:cardTypes){
+            convertedCardType.add(URLEncoder.encode(cardType,"UTF-8"));
+        }
         return  cardTypes;
     }
     GuessCuisineOperation dbdGuessCuisineOperation = new  GuessCuisineOperation() {
@@ -336,7 +417,7 @@ public class CardBenefitsRepository {
             }else if(url.contains("igh5lw4d")||url.contains("igh5lrnb")){
                 return "western";
             }else if(url.contains("igh5lwt8")||url.contains("igh5lrnp")) {
-                return "asian,japanese";
+                return "asian,southeast";
             }
             else{
                 return "others";
@@ -345,12 +426,6 @@ public class CardBenefitsRepository {
     };
 
     public List<Benefit> crawDBS() throws IOException, ParseException {
-        //chi b1 = igh5lw3q,
-        //b2 = igh5lwre mean 中式
-        //b2 = igh5lw4d mean western
-        //b2 = igh5lwt8 mean japanese
-        //b2 = igh5lw46 mean 東南亞
-        //b2 = igh5lwrr mean other
 
         //eng b1 = igh5lrm9
         //b2 = igh5lrmd mean 中式
@@ -397,30 +472,37 @@ public class CardBenefitsRepository {
 
 
 
+        //chi b1 = igh5lw3q,
+        //b2 = igh5lwre mean 中式
+        //b2 = igh5lw4d mean western
+        //b2 = igh5lwt8 mean japanese
+        //b2 = igh5lw46 mean 東南亞
+        //b2 = igh5lwrr mean other
 
 
         BenefitCrawler benefitCrawlerTW = new DBSCrawler("zh_TW");
          loadData = new JsoupConnectionLoadData();
         List<String> twCategorys = new ArrayList<String>();
-        twCategorys.add("igh5lrmd");
-        twCategorys.add("igh5lrnb");
-        twCategorys.add("igh5lrnp");
-        twCategorys.add("igh5lrp5");
-        twCategorys.add("igh5lsof");
+        twCategorys.add("igh5lwre");
+        twCategorys.add("igh5lw4d");
+        twCategorys.add("igh5lwt8");
+        twCategorys.add("igh5lw46");
+        twCategorys.add("igh5lwrr");
 
         for(String cardType:dbsCardTypes("zh_TW")){
             for(int start = 1;start  < 3;start++) {
                 for(String b2:twCategorys){
 
-                    loadData.addConnection(Jsoup.connect("http://www.dbs.com.hk/personal/credit-cards/offers-child-page.page")
+                    loadData.addConnection(Jsoup.connect("http://www.dbs.com.hk/personal-zh/credit-cards/offers-child-page.page")
                             .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                            .data("b1", "igh5lrm9")
+                            .data("b1", "igh5lw3q")
                             .data("b2", b2)
+                            .data("b3","")
                             .data("SearchOffers", "true")
                             .data("SearchProducts", "false")
-                            .data("start", "" + 1)
+                            .data("start", "" + 0)
                             .data("pageNum", "1")
-                            .data("PromotionType", "iehek24j")
+                            .data("PromotionType", "iehek2fp")
                             .data("moretext", "more")
                             .data("prodMap", cardType));
                 }
@@ -445,7 +527,7 @@ public class CardBenefitsRepository {
         List<Benefit> benefits = new ArrayList<Benefit>();
        benefits.addAll(crawSCWithoutEmpty());
 
-        benefits.addAll(crawSCWithEmpty(59));
+        benefits.addAll(crawSCWithEmpty(63));
         return benefits;
     }
     GuessCuisineOperation scGuessCuisineOperation = new  GuessCuisineOperation() {

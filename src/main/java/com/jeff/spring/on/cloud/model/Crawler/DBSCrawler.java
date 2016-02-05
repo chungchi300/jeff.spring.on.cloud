@@ -90,6 +90,7 @@ public class DBSCrawler extends BenefitCrawler {
                         extractBenefitDetail(benefit, tncLink);
                         rawData.cardType = StringUtils.substringAfter(rawData.url,"prodMap=");
                         rawData.cardType  = java.net.URLDecoder.decode( rawData.cardType, "UTF-8");
+                        benefit.addCard(rawData.cardType);
                         benefits.add(benefit);
 
                     }
